@@ -1,0 +1,11 @@
+{
+  "task_id": "LINK-42",
+  "seat": "Gate-1",
+  "verdict": "READY",
+  "finding": "Спека закрыта: редирект GET /{code} (307/404), disable/enable с target_url, миграция Alembic 001_initial_links; diff в разрешённых путях.",
+  "origin": "reference-fixture (учебный эталон Дня 2, не живая панель)",
+  "inputs_sha256": {
+    "spec": "0d45b19a5d38ae19550b50222a828b0ffbc303cf34bbc92f022737bc30a8f004",
+    "risk_plan": "4396ba1f2166748d14f9f1b527ac4ab58589bc4c84d842eaac1211d6b26a9e7b"
+  }
+}

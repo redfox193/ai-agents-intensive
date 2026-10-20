@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+test_links.db
+.env
+*.db
+handoff/
