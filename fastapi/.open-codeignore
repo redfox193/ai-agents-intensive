@@ -1,0 +1,8 @@
+# Маскировка нерелевантных доменов монолита при работе с биллингом
+app/admin/
+app/legacy/
+tests/e2e/
+docs/domains/legacy_*.md
+.git/
+*.pyc
+__pycache__/

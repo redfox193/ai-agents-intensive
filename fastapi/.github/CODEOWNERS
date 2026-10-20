@@ -1,0 +1,5 @@
+# Замороженное ядро (Frozen Core) - запрещено менять без ручного одобрения Тимлида
+app/core/config.py     @techlead-architect
+app/core/security.py   @security-team
+.github/               @devops-lead
+tools/                 @techlead-architect

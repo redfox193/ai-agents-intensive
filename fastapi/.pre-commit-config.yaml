@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: verify-architecture-layers
+        name: AST Layer Boundary Linter
+        entry: python3 tools/verify_architecture_layers.py
+        language: system
+        pass_filenames: false
+        always_run: true
+      - id: verify-kb-sync
+        name: Knowledge Base Sync Verifier
+        entry: python3 tools/verify_kb_sync.py
+        language: system
+        pass_filenames: false
+        always_run: true
