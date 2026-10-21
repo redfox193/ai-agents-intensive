@@ -31,7 +31,7 @@ RUN git config --global user.name "Pytex Student" \
     && git config --global user.email "student@pytex.local"
 
 # Configure OpenCode global authentication with active key
-ARG OPENCODE_API_KEY="oc_sk_72e1cb746218_qCgeVrd_bb35lSz_ge5upIOIlVEXj5N4"
+ARG OPENCODE_API_KEY=""
 ENV OPENCODE_API_KEY=${OPENCODE_API_KEY}
 ENV OPENCODE_PURE=1
 ENV OPENCODE_DISABLE_CLAUDE_CODE=1
