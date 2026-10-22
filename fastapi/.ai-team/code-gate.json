@@ -1,0 +1,48 @@
+{
+  "commands": [
+    {
+      "cmd": "uv run ruff check .",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run ruff format --check .",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run basedpyright",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run pytest -q",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run alembic upgrade head",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run alembic check",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run pytest scripts -q",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run python scripts/orchestrate_pipeline.py --check-blast-radius",
+      "exit_code": 0
+    },
+    {
+      "cmd": "uv run python scripts/mutate_probe.py",
+      "exit_code": 0
+    }
+  ],
+  "cycle": 1,
+  "inputs_sha256": {
+    "coder_handoff": "b2fa9d2bcd2c44e4365d6e70a672bdfbb3a80b88b9dfa5cc9ff4c026e2c13746",
+    "risk_plan": "4396ba1f2166748d14f9f1b527ac4ab58589bc4c84d842eaac1211d6b26a9e7b",
+    "spec": "0d45b19a5d38ae19550b50222a828b0ffbc303cf34bbc92f022737bc30a8f004"
+  },
+  "source": "reference-fixture",
+  "task_id": "LINK-42"
+}

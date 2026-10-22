@@ -1,0 +1,44 @@
+{
+  "agreed_blocking": 0,
+  "calls": 15,
+  "candidate": "ACCEPT",
+  "code_tree_sha256": "3d63cada2614a2d124da06566b45d362d42053d0bb253db9e31325856dc84184",
+  "cycle": 1,
+  "freeze_sha256": "8b5e59242efaef629e6bca0819dc6e6d6abcbcceaf419c36f2416fd6a7df2e07",
+  "ledger_sha256": "b755b2afd7ae3c1f6c8d715cab34ea21ede4aa53acc1af3245920afc97f2ec4a",
+  "manifest_sha256": "fec2a3657f4a3fbca4c46fc1fc60ff7d03aa3157a197e4e904e006c2923961cf",
+  "open_blocking": 0,
+  "pass_id": "LINK-42-c1-9d05d888",
+  "protocol": "consensus-debate/v1",
+  "reasons": [],
+  "rounds": {
+    "C1": {
+      "judge-1": "336c5185a886129701cacd0936fa88921ae271ffccfeaeb5154474a65cc050da",
+      "judge-2": "d7fa0e54ad15d17627523aab736caed915b1f0cd5289bfdc26b808647ee77e62",
+      "judge-3": "614af9d46b87b7905aaf3348205433d84da89093b3009fb74e7a1442fdd08937"
+    },
+    "D1": {
+      "judge-1": "060ca86bd10165f211362d99434c6709de80db32e83ba9d47badc5d6c16f3020",
+      "judge-2": "5ff21010edd0dcd077c5510e22bdd2e6f4e43c4783353ad00dbf263b300ce0ee",
+      "judge-3": "8634d57d73abc8a645df093c3bb60199e3f4b375710a9296d5ff25d5db977532"
+    },
+    "D2": {
+      "judge-1": "33d4f8b7a9a09b5e1713062dddb478ba340f09500dd3ed7e12761e8e66496383",
+      "judge-2": "7b0f9983b61676d055823f987ecd717f6ca9a887099e7b263604106a9f37e613",
+      "judge-3": "b2b60542a3f739402f29baf14196c52fec18a989c0203d20f2e43c7e50bd7f02"
+    },
+    "D3": {
+      "judge-1": "0f7cadf0ee772712e1beee81b02fe665f9c015550fdd0ea16ec62bbc62377e24",
+      "judge-2": "da7b2fa646373205e0fe3859706b5f125a7132e78975f0bd0c5c0e2622fedd9c",
+      "judge-3": "25dc21a5177f046e141a360477c86c5361ac6399741f68305104cb9df0061559"
+    },
+    "R1": {
+      "judge-1": "39a00e05efff0ccc4c32262ccc03bb4f57068f2457be2a538b148f0bf547bc24",
+      "judge-2": "4cfa7d2a34330f7ae7cbc53d0b29d6ef680fd1371232fd663df9cf3f616e73d1",
+      "judge-3": "596d6a138a2e03e8cc759a2e20b416ea9c89afcc657cb1efbe8fd23329d5b3ba"
+    }
+  },
+  "task_id": "LINK-42",
+  "technical_status": null,
+  "verdict": "ACCEPT"
+}

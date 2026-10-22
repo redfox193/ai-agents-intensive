@@ -1,0 +1,21 @@
+{
+  "calls_budget": 15,
+  "cycle": 1,
+  "inputs_sha256": {
+    "code_gate": "d011a0c9bd82c5b05ba2e1da52d7085235adb31662a6a9550e0b82ad5765a98c",
+    "code_tree_sha256": "3d63cada2614a2d124da06566b45d362d42053d0bb253db9e31325856dc84184",
+    "coder_handoff": "b2fa9d2bcd2c44e4365d6e70a672bdfbb3a80b88b9dfa5cc9ff4c026e2c13746",
+    "risk_plan": "4396ba1f2166748d14f9f1b527ac4ab58589bc4c84d842eaac1211d6b26a9e7b",
+    "rubric": "8f1f6f885d10847e8452750b1c27db795919b02b959d3db70b1fd952428dc8a1",
+    "spec": "0d45b19a5d38ae19550b50222a828b0ffbc303cf34bbc92f022737bc30a8f004"
+  },
+  "model": "opencode/deepseek-v4.1-flash-free",
+  "pass_id": "LINK-42-c1-9d05d888",
+  "protocol": "consensus-debate/v1",
+  "seats": [
+    "judge-1",
+    "judge-2",
+    "judge-3"
+  ],
+  "task_id": "LINK-42"
+}

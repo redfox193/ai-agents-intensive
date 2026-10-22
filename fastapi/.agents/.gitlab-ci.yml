@@ -1,0 +1,17 @@
+# Минимальный CI для документационного репозитория.
+# Сейчас просто помечает pipeline зелёным, чтобы merge check "Pipelines must succeed"
+# не блокировал MR. В будущем сюда можно добавить:
+#   - markdown lint (markdownlint-cli)
+#   - проверку битых внутренних ссылок между правилами
+#   - проверку UTF-8 без BOM (см. README → «Локальная разработка правил»)
+
+stages: [check]
+
+ok:
+  stage: check
+  image: alpine:3.20
+  script:
+    - echo "Документационный репо — Python-тестов нет."
+    - echo "Файлы на месте:"
+    - ls -la AGENTS.md CLAUDE.md agents/ skills/
+    - echo "Pipeline OK."

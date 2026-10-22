@@ -1,0 +1,10 @@
+{
+  "agreed_blocking": 0,
+  "candidate": "ACCEPT",
+  "code_tree_sha256": "3d63cada2614a2d124da06566b45d362d42053d0bb253db9e31325856dc84184",
+  "ledger_sha256": "b755b2afd7ae3c1f6c8d715cab34ea21ede4aa53acc1af3245920afc97f2ec4a",
+  "manifest_sha256": "fec2a3657f4a3fbca4c46fc1fc60ff7d03aa3157a197e4e904e006c2923961cf",
+  "open_blocking": 0,
+  "pass_id": "LINK-42-c1-9d05d888",
+  "protocol": "consensus-debate/v1"
+}

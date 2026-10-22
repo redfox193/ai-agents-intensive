@@ -1,0 +1,6 @@
+f_id	severity	judge	location	summary	status	resolution
+F-001	MINOR	judge-1	app/services/payment_adapters.py:13	Платёжный токен попадает в лог через logger.info (CWE-532): убрать token из сообщения или логировать только последние четыре символа	AGREED	D2:agree-3/3
+F-002	IMPORTANT	judge-1	app/main.py:41	RedirectResponse уводит на сохранённый target_url без проверки в момент перехода: возможен открытый редирект, нужна проверка адреса перед ответом	WITHDRAWN	D1:withdrawn-by-author
+F-003	MINOR	judge-2	tests/flat_api/test_link_toggle.py:51	Тест риска R-5 проверяет только подстроку secret-auth-key из target_url и не проверяет заголовок Authorization, хотя критерий закрытия R-5 шире: добавить вторую проверку	AGREED	D1:agree-3/3
+F-004	MINOR	judge-3	app/api/routes.py:36	Хэндлер read_link сам проверяет link.disabled и бросает HTTPException: бизнес-правило живёт в слое API вместо app/services/, перенести проверку в сервис	AGREED	D3:agree-3/3
+F-005	MINOR	judge-2	app/services/link.py:115	В лог link_resolved пишется clicks=link.clicks + 1 по ранее прочитанному значению, а счётчик растёт атомарным UPDATE (app/repositories/link.py:42): при параллельных переходах значение в логе может расходиться с БД	AGREED	D2:agree-3/3

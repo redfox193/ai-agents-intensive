@@ -1,29 +1,70 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "opencode/muse-spark-1.3-contributor-free",
+  "enabled_providers": [
+    "opencode",
+    "openrouter",
+    "agentplatform"
+  ],
+  "watcher": {
+    "ignore": [
+      ".venv/**",
+      "**/__pycache__/**",
+      ".git/**",
+      ".bootstrap/**",
+      "node_modules/**",
+      "**/.mypy_cache/**",
+      "**/.ruff_cache/**",
+      "**/htmlcov/**"
+    ]
+  },
   "provider": {
-    "opencode": {
+    "agentplatform": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "AgentPlatform",
+      "options": {
+        "baseURL": "https://api.agentplatform.ru/v1",
+        "apiKey": "{env:AGENTPLATFORM_API_KEY}"
+      },
       "models": {
-        "muse-spark-1.3-contributor-free": {
-          "limit": { "context": 200000, "output": 16384 }
+        "z-ai/glm-5.2": {
+          "name": "GLM 5.2",
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          },
+          "options": {
+            "provider": {
+              "sort": "throughput"
+            }
+          }
         },
-        "nemotron-3-ultra-free": {
-          "limit": { "context": 200000, "output": 16384 }
+        "moonshotai/kimi-k3": {
+          "name": "Kimi K3",
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          },
+          "options": {
+            "provider": {
+              "sort": "throughput"
+            }
+          }
         },
-        "nemotron-3.5-lightning-free": {
-          "limit": { "context": 200000, "output": 8192 }
-        },
-        "space-bunny-free": {
-          "limit": { "context": 100000, "output": 8192 }
-        }
-      }
-    },
-    "opencode-go": {
-      "models": {
-        "kimi-k3": {
-          "limit": { "context": 200000, "output": 16384 }
+        "qwen/qwen3-coder": {
+          "name": "Qwen3 Coder",
+          "limit": {
+            "context": 1000000,
+            "output": 16384
+          },
+          "options": {
+            "provider": {
+              "sort": "throughput"
+            }
+          }
         }
       }
     }
-  }
+  },
+  "model": "opencode/deepseek-v4.1-flash-free",
+  "small_model": "opencode/deepseek-v4.1-flash-free"
 }
