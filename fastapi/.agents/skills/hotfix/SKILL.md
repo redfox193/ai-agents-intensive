@@ -24,7 +24,7 @@ last_reviewed: 2026-08-09
 
 ### 1. Подготовка
 - Прочитать `.agents/agents/hotfix.md` — там жёсткие правила hotfix.
-- Создать ветку от `main`: `git checkout main && git checkout -b hotfix/<JIRA-KEY>-<short-description>`.
+- Создать ветку от `day-3`: `git checkout day-3 && git checkout -b hotfix/<JIRA-KEY>-<short-description>`.
 
 ### 2. Минимальный фикс
 - Только одно изменение — то, которое устраняет проблему.
@@ -54,4 +54,4 @@ Critical, останавливайся и зови оператора).
 
 ### 6. В конце задачи
 «Hotfix `PROJ-XXX` готов, regression test добавлен, всё зелёное, коммит
-сделан. Делаю MR на `main`?». Дальше — по ответу оператора.
+сделан. Делаю MR на `day-3`?». Дальше — по ответу оператора.

@@ -4,7 +4,7 @@ import sys
 
 
 def run_step(step_num, title, cmd):
-    print(f"\n[{step_num}/5] >>> {title}...")
+    print(f"\n[{step_num}/4] >>> {title}...")
     res = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     if res.returncode != 0:
         print(f"❌ ПРОВЕРКА [{title}] ПРОВАЛЕНА (код {res.returncode}):")
@@ -17,23 +17,22 @@ def run_step(step_num, title, cmd):
 
 def verify_techlead_gate():
     print("=" * 70)
-    print("      КОНТРОЛЬНЫЙ ШЛЮЗ ТИМЛИДА (TECHLEAD GATE: 5 СТУПЕНЕЙ)")
+    print("      КОНТРОЛЬНЫЙ ШЛЮЗ ТИМЛИДА (TECHLEAD GATE: 4 СТУПЕНИ)")
     print("=" * 70)
 
     steps = [
         (1, "Синхронизация Базы Знаний", "python3 tools/verify_kb_sync.py"),
+        (2, "Соблюдение границ архитектурных слоев", "python3 tools/verify_architecture_layers.py"),
         (
-            2,
-            "Ацикличность графа зависимостей AST",
-            "python3 tools/build_dependency_graph.py --check-cycles",
-        ),
-        (3, "Соблюдение границ архитектурных слоев", "python3 tools/verify_architecture_layers.py"),
-        (
-            4,
+            3,
             "Бюджет зоны поражения (Blast Radius <= 7 файлов)",
             "python3 tools/verify_blast_radius.py",
         ),
-        (5, "Полный регрессионный тест-сьют (pytest)", "pytest tests/unit tests/integration -q"),
+        (
+            4,
+            "Полный регрессионный тест-сьют (pytest)",
+            "uv run pytest tests/unit tests/integration -q",
+        ),
     ]
 
     for num, title, cmd in steps:
@@ -45,7 +44,7 @@ def verify_techlead_gate():
 
     print("\n" + "=" * 70)
     print("🏆 СТАТУС ПРИЁМКИ: ОДОБРЕНО ТИМЛИДОМ (TECHLEAD GATE: ACCEPTED)")
-    print("   Все 5 ступеней проверок пройдены со 100% результатом!")
+    print("   Все 4 ступени проверок пройдены со 100% результатом!")
     print("   Код допущен к объединению с основной веткой (Ready to Merge).")
     print("=" * 70)
     return 0

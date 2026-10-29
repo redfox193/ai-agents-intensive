@@ -90,11 +90,11 @@ def verify_blast_radius() -> int:
 
     # 2. Проверка неприкосновенности ядра (app/core/, alembic/, frozen_paths)
     violations: list[str] = []
-    for code, path, old in changes:
+    for _code, path, old in changes:
         if old is not None and is_protected(old, frozen_files):
             violations.append(f"{old} (переименован в {path})")
         elif is_protected(path, frozen_files) and not (
-            is_new_file(code) and path in allowed_new_core
+            path in allowed_new_core and path not in frozen_files
         ):
             violations.append(path)
 

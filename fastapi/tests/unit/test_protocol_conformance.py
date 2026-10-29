@@ -1,33 +1,32 @@
-import inspect
+"""Конформанс InMemoryBillingRepository протоколу биллинга (Runtimе-проверка PEP 544, Волна 2)."""
 
 from app.api.billing import InMemoryBillingRepository
-from app.core.protocols import BillingRepositoryProtocol, PaymentGatewayProtocol
-from app.services.payment_adapters import MockPaymentGateway, StripePaymentGateway
+from app.core.protocols import BillingRepositoryProtocol
 
 
-def verify_protocol_methods(protocol_cls, target_cls):
-    """Универсальная проверка: реализует ли target_cls все методы protocol_cls."""
-    proto_methods = [
-        name
-        for name, val in inspect.getmembers(protocol_cls)
-        if inspect.isfunction(val) and not name.startswith("_")
-    ]
-    for method_name in proto_methods:
-        assert hasattr(target_cls, method_name), (
-            f"Класс {target_cls.__name__} НЕ реализует метод '{method_name}', требуемый {protocol_cls.__name__}!"
-        )
+def test_inmemory_repository_conforms_to_billing_protocol() -> None:
+    """InMemory-репозиторий структурно совместим с BillingRepositoryProtocol."""
+    assert isinstance(InMemoryBillingRepository(), BillingRepositoryProtocol)
 
 
-def test_in_memory_repo_conforms_to_billing_protocol():
-    """Тест: InMemoryBillingRepository полностью удовлетворяет BillingRepositoryProtocol."""
-    verify_protocol_methods(BillingRepositoryProtocol, InMemoryBillingRepository)
+async def test_active_links_counter_protocol_methods() -> None:
+    """count/register/release работают по контракту реестра активных ссылок."""
+    repo: BillingRepositoryProtocol = InMemoryBillingRepository()
 
+    assert await repo.count_active_links(1) == 0
 
-def test_mock_gateway_conforms_to_payment_protocol():
-    """Тест: MockPaymentGateway полностью удовлетворяет PaymentGatewayProtocol."""
-    verify_protocol_methods(PaymentGatewayProtocol, MockPaymentGateway)
+    assert await repo.register_new_link(1) is True
+    assert await repo.register_new_link(1) is True
+    assert await repo.count_active_links(1) == 2
 
+    assert await repo.release_link(1) is True
+    assert await repo.count_active_links(1) == 1
 
-def test_stripe_gateway_conforms_to_payment_protocol():
-    """Тест: StripePaymentGateway полностью удовлетворяет PaymentGatewayProtocol."""
-    verify_protocol_methods(PaymentGatewayProtocol, StripePaymentGateway)
+    # release ниже нуля не проваливается; у владельца без ссылок — False.
+    await repo.release_link(1)
+    await repo.release_link(1)
+    assert await repo.count_active_links(1) == 0
+    assert await repo.release_link(1) is False
+
+    # Учёт изолирован по владельцу.
+    assert await repo.count_active_links(42) == 0

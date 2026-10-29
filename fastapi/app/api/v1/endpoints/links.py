@@ -1,6 +1,13 @@
-from fastapi import APIRouter, HTTPException, status
+from typing import Annotated
+
+from fastapi import APIRouter, Header, HTTPException, status
 from fastapi.responses import RedirectResponse
 
+from app.api.billing import (
+    BillingDep,
+    apply_link_quota_guard,
+    release_link_quota_guard,
+)
 from app.api.deps import ServiceDep, to_response
 from app.schemas.link import (
     LinkBulkCreateRequest,
@@ -25,8 +32,19 @@ router = APIRouter(prefix="/links", tags=["links"])
     status_code=status.HTTP_201_CREATED,
     summary="Создать короткую ссылку",
 )
-async def create_link(data: LinkCreate, service: ServiceDep) -> LinkResponse:
-    """Создаёт новую короткую ссылку с опциональным кастомным кодом и TTL."""
+async def create_link(
+    data: LinkCreate,
+    service: ServiceDep,
+    billing: BillingDep,
+    user_id: Annotated[int | None, Header(alias="X-User-Id")] = None,
+) -> LinkResponse:
+    """Создаёт новую короткую ссылку с опциональным кастомным кодом и TTL.
+
+    Header `X-User-Id` (опционально): при передаче проверяется квота активных
+    ссылок плана FREE (REQ-BILL-09, HTTP 403); при None — анонимная ссылка,
+    квота не проверяется (учебный контур).
+    """
+    await apply_link_quota_guard(billing, user_id)
     try:
         link = await service.create_link(data)
     except ShortCodeConflictError as err:
@@ -91,12 +109,22 @@ async def get_link_stats(short_code: str, service: ServiceDep) -> LinkStats:
     response_model=LinkResponse,
     summary="Деактивировать ссылку",
 )
-async def disable_link(short_code: str, service: ServiceDep) -> LinkResponse:
-    """Выключает ссылку, запрещая дальнейшие переходы."""
+async def disable_link(
+    short_code: str,
+    service: ServiceDep,
+    billing: BillingDep,
+    user_id: Annotated[int | None, Header()] = None,
+) -> LinkResponse:
+    """Выключает ссылку, запрещая дальнейшие переходы.
+
+    Header `X-User-Id` (опционально): при передаче активная ссылка снимается
+    с учёта квоты плана FREE (`release_link`).
+    """
     try:
         link = await service.disable_link(short_code)
     except LinkNotFoundError as err:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(err)) from err
+    await release_link_quota_guard(billing, user_id)
     return to_response(link)
 
 

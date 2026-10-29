@@ -15,11 +15,16 @@ class FaultyMockRepo:
         # Имитируем сбой диска или СУБД
         raise OSError("Сбой дисковой подсистемы базы данных при записи!")
 
-    async def record_transaction(self, user_id, amount, tx_id, status):
+    async def record_transaction(
+        self, user_id, amount, transaction_id, status, partner_metadata=None
+    ):
         return True
 
-    async def get_transaction(self, tx_id):
+    async def get_transaction(self, transaction_id: str):
         return None
+
+    async def list_transactions(self, user_id: int):
+        return []
 
 
 @pytest.mark.asyncio

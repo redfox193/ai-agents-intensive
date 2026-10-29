@@ -25,6 +25,21 @@
 - **Плоские маршруты (`app/api/routes.py` и `app/main.py`):** `POST /links`, `GET /links`, `GET /links/{code}`,
   `POST /links/{code}/disable|enable`, редирект `GET /{code}` (`307`, `404 Link disabled` / `404 Link not found`).
 
+## Связи с другими доменами
+- **Core:** использует SSRF-валидацию (`app/core/security.py`) и `generate_short_code`.
+- **Analytics:** фиксирует клики через `app/services/analytics.py` при редиректе.
+- **Billing:** при переходе по платной ссылке списание идёт через `POST /billing/charges/click`.
+- **API:** контроллеры `app/api/v1/endpoints/links.py` работают только со схема́ми `app/schemas/`.
+
 ## Инварианты
 1. Валидация URL происходит строго на уровне Pydantic-схемы (SSRF-защита из `app/schemas/validators.py`).
 2. Статистика кликов — в `app/services/analytics.py`; списание за клик — `POST /billing/charges/click` (`docs/domains/billing.md`).
+3. Управление транзакциями ссылок — только в `app/services/link.py`; контроллеры не содержат бизнес-логики.
+
+## Location (расположение в коде)
+- `app/schemas/link.py` — DTO (`LinkCreate`, `LinkResponse`, `LinkStats`, bulk-контракты; фасад `app/schemas/links.py`).
+- `app/services/link.py` — бизнес-логика жизненного цикла (фасад `app/services/links.py`).
+- `app/repositories/link_repository.py` — доступ к БД (фасад `app/repositories/link.py`).
+- `app/api/v1/endpoints/links.py` — HTTP-контроллеры под префиксом `/api/v1/links` (фасад `app/api/links.py`).
+- `app/api/v1/router.py` — регистрация роутера; плоские маршруты — `app/api/routes.py` и `app/main.py`.
+- `app/domain/link.py`, `app/domain/value_objects.py` — доменные модели и ошибки.

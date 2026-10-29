@@ -24,12 +24,13 @@ class MockRepo:
             )
         return True
 
-    async def record_transaction(self, user_id, amount, transaction_id, status):
+    async def record_transaction(self, user_id, amount, transaction_id, status, partner_metadata=None):
         self.transactions[transaction_id] = {
             "user_id": user_id,
             "amount": amount,
             "status": status,
             "remaining_balance": self.wallets[user_id].balance,
+            "partner_metadata": dict(partner_metadata or {}),
         }
         return True
 

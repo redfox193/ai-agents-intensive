@@ -18,7 +18,7 @@ last_reviewed: 2026-08-09
 - Прочитать `.agents/agents/mr.md` — требования к оформлению.
 - Прогнать автофиксы: `uv run ruff format . && uv run ruff check --fix .`.
 - Убедиться что все проверки проходят: `uv run ruff check . && uv run basedpyright && uv run pytest -q`.
-- Проверить что ветка актуальна: `git fetch origin main && git rebase origin/main`.
+- Проверить что ветка актуальна: `git fetch origin day-3 && git rebase origin/day-3`.
 
 ### 2. Описание MR
 - Заголовок: тип + краткое описание (`feat: add link update endpoint`).

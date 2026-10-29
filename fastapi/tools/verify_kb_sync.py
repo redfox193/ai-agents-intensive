@@ -1,67 +1,67 @@
 #!/usr/bin/env python3
+"""Легковесная проверка синхронизации базы знаний монолита.
+
+- docs/INDEX.md существует и укладывается в лимит 100 строк.
+- Все пути app/... и docs/domains/..., упомянутые в INDEX.md, существуют на диске.
+
+Exit code: 0 — всё сходится, 1 — есть расхождения.
+"""
+
 import re
 import sys
 from pathlib import Path
 
+MAX_LINES = 100
 
-def verify_kb():
-    root = Path.cwd()
-    index_file = root / "docs" / "INDEX.md"
+# Пути вида app/... и docs/domains/... (слоши, точки, дефисы, подчёркивания, расширения)
+PATH_RE = re.compile(r"\b((?:app|docs/domains)/[\w./-]+)")
 
-    if not index_file.exists():
-        print("❌ ОШИБКА: docs/INDEX.md не найден!")
+REASON_INDEX_MISSING = "INDEX_MISSING"
+REASON_SIZE_EXCEEDED = "INDEX_SIZE_EXCEEDED"
+REASON_FILE_MISSING = "FILE_MISSING"
+
+
+def verify_kb(root: Path | None = None) -> int:
+    """Проверить синхронизация базы знаний; вернуть 0 (OK) или 1 (FAIL)."""
+    root = root or Path.cwd()
+    index = root / "docs" / "INDEX.md"
+
+    if not index.exists():
+        print("FAIL: docs/INDEX.md не найден")
         return 1
 
-    index_content = index_file.read_text(encoding="utf-8")
-    lines = index_content.splitlines()
+    text = index.read_text(encoding="utf-8")
+    lines = text.splitlines()
+    errors: list[str] = []
+    if len(lines) > MAX_LINES:
+        errors.append(f"docs/INDEX.md содержит {len(lines)} строк (лимит {MAX_LINES})")
 
-    if len(lines) > 100:
-        print(
-            f"❌ ОШИБКА: docs/INDEX.md превышает лимит размера! Строк: {len(lines)} (максимум 100)"
-        )
+    missing: list[str] = []
+    for rel in sorted(set(PATH_RE.findall(text))):
+        p = root / rel
+        # Упоминания путей в тексте могут стоять без расширения — допускаем файл с .md
+        if not p.exists() and not Path(str(p) + ".md").exists():
+            missing.append(rel)
+
+    if errors or missing:
+        print("FAIL: база знаний не синхронизирована с диском")
+        for e in errors:
+            print(f"  - {e}")
+        for rel in missing:
+            print(f"  - отсутствует: {rel}")
         return 1
 
-    # Извлекаем все пути к файлам вида `app/...`
-    referenced_files = re.findall(r"`(app/[^`]+)`", index_content)
-    missing_files = []
-
-    for rel_path in referenced_files:
-        full_path = root / rel_path
-        if not full_path.exists():
-            missing_files.append(rel_path)
-
-    # Проверяем существование доменных спек
-    referenced_specs = re.findall(r"`(docs/domains/[^`]+)`", index_content)
-    missing_specs = []
-    for spec in referenced_specs:
-        if not (root / spec).exists():
-            missing_specs.append(spec)
-
-    print("=== ПРОВЕРКА АКТУАЛЬНОСТИ БАЗЫ ЗНАНИЙ (KNOWLEDGE SYNC) ===")
-    print(f"Размер docs/INDEX.md: {len(lines)} строк (норма: <= 100) -> OK")
-    print(f"Упомянуто файлов реализации: {len(referenced_files)}")
-    print(f"Упомянуто доменных спецификаций: {len(referenced_specs)}")
-
-    has_errors = False
-    if missing_files:
-        print("❌ BreakageSignal FILE_RENAMED / FILE_MISSING:")
-        for mf in missing_files:
-            print(f"   - Файл из индекса не найден на диске: {mf}")
-        has_errors = True
-
-    if missing_specs:
-        print("❌ BreakageSignal SPEC_MISSING:")
-        for ms in missing_specs:
-            print(f"   - Документ домена не найден: {ms}")
-        has_errors = True
-
-    if has_errors:
-        print("❌ ВЕРИФИКАЦИЯ БАЗЫ ЗНАНИЙ ПРОВАЛЕНА")
-        return 1
-
-    print("✅ БАЗА ЗНАНИЙ ПОЛНОСТЬЮ СИНХРОНИЗИРОВАНА С КОДОМ")
+    print(
+        f"OK: docs/INDEX.md ({len(lines)}/{MAX_LINES} строк), "
+        f"путей проверено: {len(set(PATH_RE.findall(text)))} — все существуют"
+    )
     return 0
 
 
+def main() -> int:
+    root = Path(__file__).resolve().parent.parent
+    return verify_kb(root)
+
+
 if __name__ == "__main__":
-    sys.exit(verify_kb())
+    sys.exit(main())
